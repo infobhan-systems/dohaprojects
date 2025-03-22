@@ -2246,6 +2246,8 @@ progress {
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
 
+
+
 @media (prefers-reduced-motion:reduce) {
     .form-control {
         transition: none
@@ -22459,7 +22461,8 @@ a.next-post {
 }
 
 .map-content-9 form input,
-.map-content-9 form textarea {
+.map-content-9 form textarea,
+.map-content-9 form select {
     background: var(--bg-color);
     border: 1px solid var(--border-color-light);
     color: var(--font-color);
@@ -22485,7 +22488,8 @@ a.next-post {
 }
 
 .map-content-9 form input:focus,
-.map-content-9 form textarea:focus {
+.map-content-9 form textarea:focus,
+.map-content-9 form select:focus {
     outline: none;
     border: 1px solid var(--primary-color);
     background: var(--bg-color);

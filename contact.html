@@ -13,6 +13,7 @@
     <!--/Template-CSS -->
     <link rel="stylesheet" href="assets/css/style-liberty.css">
     <!--//Template-CSS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 
 <body>
@@ -321,28 +322,41 @@
     <section class="py-5 about-main" id="contact">
         <div class="container">
             <div class="row py-md-4 py-2">
-                <!--/form-->
                 <div class="col-md-6 map-content-9 py-5" id="contact">
                     <div class="map-content-9-in">
-                        <div class="w3-map-content-9-form">
-                            <h6 class="title-subw3hny mb-2 text-center mx-auto">Fill out the form.</h6>
-                            <h3 class="title-w3l mb-sm-5 mb-3 text-center">Contact Us</h3>
-                            <form action="https://sendmail.w3layouts.com/submitForm" method="post">
-                                <div class="twice-two">
-                                    <input type="text" class="form-control" name="w3lName" id="w3lName" placeholder="Name" required="">
-                                    <input type="email" class="form-control" name="w3lSender" id="w3lSender" placeholder="Email" required="">
-                                </div>
-                                <div class="twice">
-                                    <input type="text" class="form-control" name="w3lSubject" id="w3lSubject" placeholder="Subject" required="">
-                                </div>
-                                <textarea name="w3lMessage" class="form-control" id="w3lMessage" placeholder="Message" required=""></textarea>
-                                <div class="text-right">
-                                    <button type="submit" class="btn btn-primary btn-style mt-4 d-sm-inline d-block">Send Message <i class="fas fa-paper-plane ms-2"></i></button>
-                                </div>
-                            </form>
-                        </div>
+                      <div class="w3-map-content-9-form">
+                        <h6 class="title-subw3hny mb-2 text-center mx-auto">Fill out the form.</h6>
+                        <h3 class="title-w3l mb-sm-5 mb-3 text-center">Contact Us</h3>
+                        <form method="post">
+                          <div class="twice-two">
+                            <input type="text" class="form-control" name="w3lName" id="w3lName" placeholder="Name" required="">
+                            <input type="email" class="form-control" name="w3lSender" id="w3lSender" placeholder="Email" required="">
+                          </div>
+                          <div class="twice">
+                            <input type="text" class="form-control" name="w3lSubject" id="w3lSubject" placeholder="Subject" required="">
+                          </div>
+                          <div class="twice mt-3">
+                            <select name="w3lType" class="form-select" id="w3lType" required="">
+                              <option selected disabled>Select type</option>
+                              <option value="Business Advisory">Business Advisory</option>
+                              <option value="Financial Subject">Financial Subject</option>
+                              <option value="Sales">Sales</option>
+                              <option value="Corporate Investment">Corporate Investment</option>
+                            </select>
+                          </div>
+                          <textarea name="w3lMessage" class="form-control" id="w3lMessage" placeholder="Message" required=""></textarea>
+                          <div class="text-right">
+                            <button type="submit" class="btn btn-primary btn-style mt-4 d-sm-inline d-block">
+                              Send Message <i class="fas fa-paper-plane ms-2"></i>
+                            </button>
+                            <p id="status"></p>
+                          </div>
+                        </form>
+                      </div>
                     </div>
-                </div>
+                  </div>
+                  
+
                 <div class="col-md-6 map-content-9 py-5">
                     <div class="map-content-9-in">
                         <div class="w3-map-content-9-form">
@@ -430,6 +444,53 @@
             </div>
         </div>
     </section>
+    <script>
+        // When the document is ready
+    $(document).ready(function(){
+          // Bind submit event to your form
+    $('form').on('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        var $form = $(this);
+        var $btn = $form.find('button[type="submit"]'); // Find the submit button in the form
+        var originalBtnHTML = $btn.html(); // Store the original button HTML
+
+        // Set loader icon and disable button
+        $btn.html('<i class="fas fa-spinner fa-spin"></i> Loading...');
+        $btn.prop('disabled', true);
+
+        $.ajax({
+        url: 'submitForm.php',  // Ensure this URL is correct and accessible
+        type: 'POST',
+        data: $(this).serialize(),  // Serialize all form fields
+        dataType: 'json',
+        success: function(response) {
+            if(response.status === 'success'){
+                $btn.html('<i class="fas fa-check"></i> Success');
+                alert(response.message);
+                $(this)[0].reset(); // Reset only the submitted form
+            } else {
+            alert(response.message);
+            }
+        }.bind(this), // Bind 'this' to the current form instance
+        error: function(xhr, status, error) {
+            // Update button in case of error
+            $btn.html(`<i class="fas fa-times"></i> Error`);
+            $('#status').html('<span style="color: red;">An error occurred: ' + error + '</span>');
+            console.log(error)
+        },
+        complete: function(){
+            // After 2 seconds, revert the button back to its original state
+            setTimeout(function(){
+            $btn.html(originalBtnHTML);
+            $btn.prop('disabled', false);
+            }, 2000);
+        }
+        });
+    });
+    });
+    </script>
+
    
     <!-- //contact-section -->
     <!-- //contact block -->
@@ -542,7 +603,6 @@
     <!--//footer-9 -->
 
     <!-- Template JavaScript -->
-    <script src="assets/js/jquery-3.3.1.min.js"></script>
     <script src="assets/js/theme-change.js"></script>
     <!-- MENU-JS -->
     <script>
