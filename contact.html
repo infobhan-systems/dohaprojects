@@ -532,6 +532,7 @@
         var formData = $(this).serialize();
         formData += '&g-recaptcha-response=' + captchaResponse;
 
+        console.log(formData); // Log the serialized form data for debugging
         $.ajax({
         url: 'submitForm.php',  // Ensure this URL is correct and accessible
         type: 'POST',
