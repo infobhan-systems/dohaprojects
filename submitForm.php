@@ -12,7 +12,7 @@ header('Content-Type: application/json');
 $captchaResponse = $_POST['g-recaptcha-response'];
 
 // Your secret key (keep this private)
-$secretKey = define('reCaptcha');
+$secretKey = defined('reCaptcha');
 
 // Verify the captcha response
 $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey.'&response='.$captchaResponse);
