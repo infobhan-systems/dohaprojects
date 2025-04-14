@@ -535,7 +535,7 @@
         $.ajax({
         url: 'submitForm.php',  // Ensure this URL is correct and accessible
         type: 'POST',
-        data: $(this).serialize(),  // Serialize all form fields
+        data:  formData,// Serialize all form fields
         dataType: 'json',
         success: function(response) {
             if(response.status === 'success'){
