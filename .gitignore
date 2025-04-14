@@ -1,1 +1,9 @@
 /developer
+
+submitForm*.php
+
+error.log
+
+aws_config.php
+
+checkchmod.php
