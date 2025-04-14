@@ -36,11 +36,11 @@ function verifyCaptcha($secret, $response) {
 // Verify the captcha response
 $responseData = verifyCaptcha($secretKey, $captchaResponse);
 
-if(!$responseData->success) {
-    // Captcha verification failed
-    echo json_encode(['status' => 'error', 'message' => 'Captcha verification failed. Please try again.']);
-    exit;
-}
+// if(!$responseData->success) {
+//     // Captcha verification failed
+//     echo json_encode(['status' => 'error', 'message' => 'Captcha verification failed. Please try again.']);
+//     exit;
+// }
 
 // Load AWS credentials from a file located OUTSIDE the web root directory
 // Assuming your web root is something like /home/username/public_html/
