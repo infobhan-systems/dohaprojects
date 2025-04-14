@@ -8,6 +8,22 @@ ini_set('error_log', 'error.log'); // Will log to the same directory as the scri
 ob_start();
 header('Content-Type: application/json');
 
+// Get the captcha response from the form submission
+$captchaResponse = $_POST['g-recaptcha-response'];
+
+// Your secret key (keep this private)
+$secretKey = define('reCaptcha');
+
+// Verify the captcha response
+$verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey.'&response='.$captchaResponse);
+$responseData = json_decode($verifyResponse);
+
+if(!$responseData->success) {
+    // Captcha verification failed
+    echo json_encode(['status' => 'error', 'message' => 'Captcha verification failed. Please try again.']);
+    exit;
+}
+
 // Load AWS credentials from a file located OUTSIDE the web root directory
 // Assuming your web root is something like /home/username/public_html/
 // And this file is placed at /home/username/aws_config.php
