@@ -14,9 +14,27 @@ $captchaResponse = $_POST['g-recaptcha-response'];
 // Your secret key (keep this private)
 $secretKey = defined('reCaptcha');
 
+// Alternative using cURL
+function verifyCaptcha($secret, $response) {
+    $url = 'https://www.google.com/recaptcha/api/siteverify';
+    $data = [
+        'secret' => $secret,
+        'response' => $response
+    ];
+    
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    
+    return json_decode($result);
+}
+
 // Verify the captcha response
-$verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey.'&response='.$captchaResponse);
-$responseData = json_decode($verifyResponse);
+$responseData = verifyCaptcha($secretKey, $captchaResponse);
 
 if(!$responseData->success) {
     // Captcha verification failed
